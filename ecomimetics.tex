@@ -26,4 +26,104 @@ But to do so, we first have to understand those tools, and, as I always say, you
 
 \part{The Zoo}
 
+\chapter{Playing with Toys}
+
+One of the single best ways to understand how something works is to try to build it yourself from scratch. It's a great way to distill the elements that matter from those that are just noise. Continuing down this train of thought, while it may be tempting to try to outline a process in all of its complexity all at once, you can get a lot of mileage by playing a kind of "straw-man" game. That is you start with a model that is clearly too simple and then use it to figure out exactly \textit{why} it is too simple. This more or less prevents you from sticking in more detail than you actually need because many times even the simplest of models can surprise us and more often than that the complexities we think we need are not the right ones at all. 
+\newline
+
+All to say that in this chapter we're going to start with some models that are excruciatingly simple in that they can barely be said to model anything at all. Yet as I hope you'll see we're actually going to get quite a bit of mileage out of them in terms of understand what kinds of mechanisms are really at play in the world around us. 
+\newline
+
+Let's open the toy chest. 
+
+\section{Consumer Resource Models}
+
+We start with a simple question - why don't consumers consume all of the resources available to them? We begin with our resource $R$ (maybe some kind of plant our consumer will feed on) and propose a very simple model for it's growth on it's own:
+
+$$\frac{dR}{dt} = r(1-R/K)R$$
+
+where we designate $K$ the carrying capacity of the resource $R$ and $r$ the nominal growth rate. All this model says is that the growth rate is proportional to the size of $R$ where the proportion decreases as $R\rightarrow K$. If $R$ is very small the growth is slow because there are not many individuals breeding, if $R$ is close to $K$ there is not much growth because our plants are themselves hitting some wall (maybe space, nutrients, or light). 
+
+So, left to its own devices this is how our resource would develop. But what about the consumer?
+
+\subsection{Model 1}
+
+In this case we're going to hinge our model on how the consumer should consume at the low and high ends of resource availability. So, if our resource is really low "each" consumer will end up with little to nothing, but if the resource is exceptionally high the individual consumer's consumption rate should flatten out at some maximum value (if I give you ten pounds of potatoes you're not going to eat all ten pounds). We can model this by saying that the rate at which our resource is consumed per individual unit of consumer is given by:
+
+$$\frac{zR}{R+S}$$
+
+where $z$ is the maximum consumption rate possible. Looking at $S$ we can see that if $S$ is small the consumers zoom toward $z$ faster and if $R=S$ they will consume at precisely half of their maximum consumption rate $z$. So we'll call $S$ the half-saturation point. 
+
+Alright with all of this in hand we'll go ahead and update our resource model:
+
+$$\frac{dR}{dt} = r(1-R/K)R-\frac{zR}{R+S}C$$
+
+Now assuming that our consumers turn resource into biomass at a rate of $b$ we have:
+
+$$\frac{dC}{dt}=b\frac{zR}{R+S}C$$
+
+This of course is senseless because it means a consumer, once created can never die, so let's go ahead and add some kind of base metabolism $m$ that has to be maintained per consumer:
+
+$$\frac{dC}{dt}=b\frac{zR}{R+S}C-mC=\left(\frac{bzR}{R+S} - m\right)C$$
+
+Amazing! Now we can make some observations of this model. 
+\newline
+
+The first is that the point at which the consumer gets into trouble is when $dC/dt$ gets negative which from the above requires:
+
+$$\frac{bzR}{R+S} - m < 0$$
+
+Focusing on the turning point $R_{crit}$ (i.e. when the consumer's rate of growth stalls) we have:
+
+$$\frac{bzR_{crit}}{R_{crit}+S} - m = 0 \rightarrow R_{crit}=\frac{S}{bz-m}$$
+
+Couple of takeaways from this. First, $bz-m$ had better be positive which makes a whole lot of sense because $bz-m$ represents the surplus converted biomass at maximum consumption rates. If that's negative the consumer dies no matter how much material is around. Second we'll note that as that surplus increases the level of $R_{crit}$ lowers and therefore the consumers can continue to subsist on less. However, if their ability to find food drops (and therefore $S$ increases) then they're going to need more and more food as $R_{crit}$ rises. 
+
+What's more, it's clear that this $R_{crit}$ level is completely what determines whether the consumer is increasing or decreasing. If the consumer has eaten enough that $R$ has fallen below this critical value the consumer will fall until there are few enough of them that the resource can begin to grow again and until it does the consumer will just keep going down. Once it reaches $R_{crit}$ the consumer will start to grow again until eventually it repeats the whole process. 
+
+Will $R$ ever be $0$? Nope, because we've modeled the decrease in the resource as proportional to $R$. So the consumer can eat \textit{lots} of the resource, but it will never drive it out of existence. Instead the consumer and the resource will just oscillate around one another forever more. 
+
+So, is this a satisfying answer? Not really because we've got two obvious oddities:
+
+\begin{enumerate}
+\item \textbf{Nature is not Continuous:} It is totally possible for a small resource quantity to get totally ransacked and there's no way for that to happen in this model.
+\item \textbf{Consumer Independent Growth:} Notice that whether or not our consumer was growing had absolutely nothing to do with how many consumers there were. That means we were saying that for a given level of $R$ it didn't matter if you had 1,000 consumers or 1 billion. 
+\end{enumerate}
+
+We'll get around to the first problem in a bit, but for right now let's focus on the second - how is this even possible? The answer is that we have only considered how resource density affects the consumer, not how competition among consumers takes its toll and that means we're allowing for absolutely massive instantaneous draws on the resource. Let's go ahead and fix that. 
+
+\subsection{Model 2: Consumer Competition}
+
+We've now seen that what matters is not just the level of $R$ but the level of $C$ in relation to it. We'll call the ratio $F=C/R$ the "fullness" of our resource. So now, if the fullness is low we want our consumers going at their maximum rate (or at least near to it) and if the fullness is really high the consumption rate per consumer should tend to 0. We'll use this as our model:
+
+$$\frac{z}{1+\alpha F}$$
+
+where $\alpha$ has now replaced $S$ as our control over how quickly the consumer can zoom towards $z$. Replacing our old consumption rate we now have:
+
+$$\frac{dR}{dt} = r(1-R/K)R-\frac{z}{1+\alpha F}C$$
+
+$$\frac{dC}{dt} = \left(b\frac{z}{1+\alpha F}-m\right)C$$
+
+Once again we can solve for the tipping point (this time $F_{crit}$)
+
+$$b\frac{z}{1+\alpha F_{crit}}-m=0 \rightarrow F_{crit} = \frac{bz-m}{m\alpha}$$
+
+Once again we see that we need that $bz-m$ surplus and that as $\alpha$ increases we run into problems sooner (a smaller $F_{crit}$). Interestingly $m$ has a bigger part to play this time around as well (which makes a good deal of sense). But most importantly the number of consumers relative to the number of resources is what matters now. 
+
+Let's go ahead now and plug this into our tipping point for $R$:
+
+$$r(1-R/K)R-\frac{z}{1+\alpha F_{crit}}C = 0$$
+
+$$R = K\left( 1 - \frac{z}{r}\frac{F_{crit}}{1+\alpha F_{crit}}\right)$$
+
+What does this mean? It means that this time instead of having oscillations, we actually have a singular point at which $R$ and $C$ both have derivatives equal to zero. And if you have $C$ rise at that point then it would exceed $F_{crit}$ and start to drop, below and it would start to rise. Same can be said for $R$ and therefore this point is stable. 
+
+And there is just one example of why toy models are so helpful by just changing the per unit consumption rate to be a function of $F$ as opposed to just $R$ we've gone from oscillations to a stable point. 
+
+However this is still not a particularly good answer as we know that if the consumer population was extremely high it seems rather likely they'd rip the resource to shreds. Let's see if we can resolve that next. 
+
+
+
+
+
 \end{document}
