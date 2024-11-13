@@ -46,81 +46,109 @@ where we designate $K$ the carrying capacity of the resource $R$ and $r$ the nom
 
 So, left to its own devices this is how our resource would develop. But what about the consumer?
 
-\subsection{Model 1}
-
 In this case we're going to hinge our model on how the consumer should consume at the low and high ends of resource availability. So, if our resource is really low "each" consumer will end up with little to nothing, but if the resource is exceptionally high the individual consumer's consumption rate should flatten out at some maximum value (if I give you ten pounds of potatoes you're not going to eat all ten pounds). We can model this by saying that the rate at which our resource is consumed per individual unit of consumer is given by:
 
 $$\frac{zR}{R+S}$$
 
-where $z$ is the maximum consumption rate possible. Looking at $S$ we can see that if $S$ is small the consumers zoom toward $z$ faster and if $R=S$ they will consume at precisely half of their maximum consumption rate $z$. So we'll call $S$ the half-saturation point. 
-
-Alright with all of this in hand we'll go ahead and update our resource model:
-
-$$\frac{dR}{dt} = r(1-R/K)R-\frac{zR}{R+S}C$$
-
-Now assuming that our consumers turn resource into biomass at a rate of $b$ we have:
-
-$$\frac{dC}{dt}=b\frac{zR}{R+S}C$$
-
-This of course is senseless because it means a consumer, once created can never die, so let's go ahead and add some kind of base metabolism $m$ that has to be maintained per consumer:
-
-$$\frac{dC}{dt}=b\frac{zR}{R+S}C-mC=\left(\frac{bzR}{R+S} - m\right)C$$
-
-Amazing! Now we can make some observations of this model. 
-\newline
-
-The first is that the point at which the consumer gets into trouble is when $dC/dt$ gets negative which from the above requires:
-
-$$\frac{bzR}{R+S} - m < 0$$
-
-Focusing on the turning point $R_{crit}$ (i.e. when the consumer's rate of growth stalls) we have:
-
-$$\frac{bzR_{crit}}{R_{crit}+S} - m = 0 \rightarrow R_{crit}=\frac{S}{bz-m}$$
-
-Couple of takeaways from this. First, $bz-m$ had better be positive which makes a whole lot of sense because $bz-m$ represents the surplus converted biomass at maximum consumption rates. If that's negative the consumer dies no matter how much material is around. Second we'll note that as that surplus increases the level of $R_{crit}$ lowers and therefore the consumers can continue to subsist on less. However, if their ability to find food drops (and therefore $S$ increases) then they're going to need more and more food as $R_{crit}$ rises. 
-
-What's more, it's clear that this $R_{crit}$ level is completely what determines whether the consumer is increasing or decreasing. If the consumer has eaten enough that $R$ has fallen below this critical value the consumer will fall until there are few enough of them that the resource can begin to grow again and until it does the consumer will just keep going down. Once it reaches $R_{crit}$ the consumer will start to grow again until eventually it repeats the whole process. 
-
-Will $R$ ever be $0$? Nope, because we've modeled the decrease in the resource as proportional to $R$. So the consumer can eat \textit{lots} of the resource, but it will never drive it out of existence. Instead the consumer and the resource will just oscillate around one another forever more. 
-
-So, is this a satisfying answer? Not really because we've got two obvious oddities:
-
-\begin{enumerate}
-\item \textbf{Nature is not Continuous:} It is totally possible for a small resource quantity to get totally ransacked and there's no way for that to happen in this model.
-\item \textbf{Consumer Independent Growth:} Notice that whether or not our consumer was growing had absolutely nothing to do with how many consumers there were. That means we were saying that for a given level of $R$ it didn't matter if you had 1,000 consumers or 1 billion. 
-\end{enumerate}
-
-We'll get around to the first problem in a bit, but for right now let's focus on the second - how is this even possible? The answer is that we have only considered how resource density affects the consumer, not how competition among consumers takes its toll and that means we're allowing for absolutely massive instantaneous draws on the resource. Let's go ahead and fix that. 
-
-\subsection{Model 2: Consumer Competition}
-
-We've now seen that what matters is not just the level of $R$ but the level of $C$ in relation to it. We'll call the ratio $F=C/R$ the "fullness" of our resource. So now, if the fullness is low we want our consumers going at their maximum rate (or at least near to it) and if the fullness is really high the consumption rate per consumer should tend to 0. We'll use this as our model:
+There is however one problem with a model of consumption per unit consumer like this one - and that is it has no relation to the density of the consumers itself. Obviously if the resource $R$ is held fixed and we increase the consumer $C$ indefinitely eventually competition must take hold and the consumption per consumer must drop. Therefore instead of the model above we'll base on off of fullness $F=C/R$ like the following:
 
 $$\frac{z}{1+\alpha F}$$
 
-where $\alpha$ has now replaced $S$ as our control over how quickly the consumer can zoom towards $z$. Replacing our old consumption rate we now have:
+where now $\alpha$ is replacing $S$ as the control of how quickly saturation can happen and we can now see that as $C$ increases the rate drops as well (if $R$ is held constant). 
+
+Putting this all together we now have:
 
 $$\frac{dR}{dt} = r(1-R/K)R-\frac{z}{1+\alpha F}C$$
 
-$$\frac{dC}{dt} = \left(b\frac{z}{1+\alpha F}-m\right)C$$
+Now assuming that our consumers turn resource into biomass at a rate of $b$ we have:
 
-Once again we can solve for the tipping point (this time $F_{crit}$)
+$$\frac{dC}{dt}=b\frac{z}{1+\alpha F}C$$
 
-$$b\frac{z}{1+\alpha F_{crit}}-m=0 \rightarrow F_{crit} = \frac{bz-m}{m\alpha}$$
+This of course is senseless because it means a consumer, once created can never die, so let's go ahead and add some kind of base metabolism $m$ that has to be maintained per consumer:
 
-Once again we see that we need that $bz-m$ surplus and that as $\alpha$ increases we run into problems sooner (a smaller $F_{crit}$). Interestingly $m$ has a bigger part to play this time around as well (which makes a good deal of sense). But most importantly the number of consumers relative to the number of resources is what matters now. 
+$$\frac{dC}{dt}=b\frac{z}{1+\alpha F}C-mC=\left(\frac{bz}{1+\alpha F} - m\right)C$$
 
-Let's go ahead now and plug this into our tipping point for $R$:
+Amazing! Now we can make some observations of this model. 
 
-$$r(1-R/K)R-\frac{z}{1+\alpha F_{crit}}C = 0$$
+\subsection{When There's Trouble in Heaven}
 
-$$R = K\left( 1 - \frac{z}{r}\frac{F_{crit}}{1+\alpha F_{crit}}\right)$$
+First, what happens when $R$ starts getting very low (and we start getting worried)? Specifically in this case we find that the $(1-R/K) \approx 1$ and therefore:
 
-What does this mean? It means that this time instead of having oscillations, we actually have a singular point at which $R$ and $C$ both have derivatives equal to zero. And if you have $C$ rise at that point then it would exceed $F_{crit}$ and start to drop, below and it would start to rise. Same can be said for $R$ and therefore this point is stable. 
+$$\frac{dR}{dt} = rR-\frac{z}{1+\alpha F}C$$
 
-And there is just one example of why toy models are so helpful by just changing the per unit consumption rate to be a function of $F$ as opposed to just $R$ we've gone from oscillations to a stable point. 
+Expanding the consumption term we have:
 
-However this is still not a particularly good answer as we know that if the consumer population was extremely high it seems rather likely they'd rip the resource to shreds. Let's see if we can resolve that next. 
+$$\frac{dR}{dt} = rR-\frac{z}{1+\alpha C/R}C$$
+
+So as $C\rightarrow \infty$ we get:
+
+
+$$\frac{dR}{dt} = rR-\frac{z}{\alpha}R=\left(r - \frac{z}{\alpha}\right)R$$
+
+Which is to say that at high concentrations of our consumer our resource will grow (or more likely shrink) at a rate of $r-z/\alpha$ per unit resource. What happens to $C$ in this realm? 
+
+$$\frac{dC}{dt}=\left( b\frac{z}{1+\alpha F}-m \right)C$$
+
+Well given that $F\rightarrow \infty$ as $C \rightarrow \infty$ and $R\rightarrow 0$ it'll become:
+
+$$\frac{dC}{dt}=\left( 0-m \right)C$$
+
+So while the resource is changing at $r-z/\alpha$ per unit $R$, $C$ is changing at $-m$ per unit $C$. Put another way our fullness after a short timestep $\delta t$ will be approximately:
+
+$$F_{t+\delta t} \approx \frac{1-m\delta t}{1 + (r-z/\alpha)\delta t}\frac{C_t}{R_t}$$
+
+We can actually learn a lot from this. Before doing so let's call $\gamma=z/\alpha-r$ the saturation consumption rate in the sense that it is how much $R$ shrinks when $C$ is very very large and $R$ is very very small (when it happens to have its highest growth rate). 
+
+With that out of the way we have:
+
+$$F_{t+\delta t} \approx \frac{1-m\delta t}{1 - \gamma \delta t}\frac{C_t}{R_t}$$
+
+We can see here that if the $|\gamma|$ is larger than $|m|$ the fullness will just increase as $C$ is falling more slowly than $R$ is falling. This will mean that our situation will become more and more saturated (from a fullness $F$ perspective) and as a result the resource will get killed off by the consumer and subsequently the consumer will starve itself. 
+
+If on the other hand $|\gamma| < |m|$ then the consumer will die off faster than the resource and the fullness will begin to drop as well taking pressure off of the resource. This will continue until $C$ and $R$ find some balance in their growth rates (or oscillate around that balance) but the fullness will never be allowed to walk off to $\infty$. 
+
+It might seem as if we are all good now but remember this just tells us that $F$ can only get so high. It does not tell us how low $C$ and $R$ can get. For all we know a perfectly suitable solution in this $F$ bounded situation is that $C$ and $R$ both walk down to oblivion together. 
+\newline
+
+However we do know this: \textbf{if $|\gamma| > |m|$ there exists a fullness $F>>1$ s.t. the resource cannot recover.}
+
+Specifically we know that fullness is the one where the loss rate per unit $R$ exceeds the loss rate per unit $C$. Put in more english terms - \textbf{if the consumer can remove the resource faster than it itself dies, the resource, and thereby the consumer, is doomed.} 
+\newline 
+
+So what of our other case? The one where the fullness $F$ may not necessarily decrease but the $C$ and $R$ drive one another to ruin? In this situation there are two possible cases:
+
+\begin{enumerate}
+\item $C$ and $R$ drop at precisely the same rate (on average).
+\item $C$ drops off faster than $R$. 
+\end{enumerate}
+
+Given the former case is incredibly unlikely (it would require a perfect balance right until the end) we will focus on the second. In the case where $C$ drops off faster than $R$ (proportionately) $F\rightarrow 0$ which means our growth rate $dR/dt\rightarrow r$. In other words while the resource $R$ can be suppressed to very low levels eventually it must start growing again and recommence the cycle.
+\newline
+
+Now there are certainly parts of the space where $C$ has a larger effect on $R$ than it does on itself. For example if $R=K$, then the resource is producing no growth at all and so $R$ can only drop. If $C$ is small enough so that it is still growing then clearly $C$ is having more of an effect on $R$ than on itself. However in this case as $R$ drops it will begin to have its own growth rate rise and therefore can counter $C$'s effect. The reason we focused on the case where $R\rightarrow 0$ is because here the resource has no more options. \newline
+
+We can summarize our findings as follows:
+
+\begin{enumerate}
+\item If $|\gamma| > |m|$ then, given $R$, there exists a fullness $F>>1$ s.t. the resource cannot recover.
+\item If $|\gamma| < |m|$ then the consumer cannot totally annihilate the resource. 
+\end{enumerate}
+
+\subsection{Safe Zones}
+
+So we know that if $|\gamma| > |m|$ there's potential for problems, but are there also portions of the space we don't have to worry about? Trivially, yes, and we can see this by computing when $dR/dt$ and $dC/dt$ are both zero (i.e. when there's no growth or loss). 
+
+$$0 = \left( b\frac{z}{1+\alpha F}-m \right)C \rightarrow F= \frac{zb-m}{\alpha m}$$
+
+$$0 = r(1-R/K)R-\frac{z}{1+\alpha F}C \rightarrow r(1-R/K)=\frac{zF}{1+\alpha F}$$
+
+$$\rightarrow R = K\left( 1 - \frac{z}{r}\frac{F}{1+\alpha F} \right)$$
+
+If $zb-m>0$ then there exists a solution where $C>0$ and then if the term in parenthesis in the last equation is also $>0$ we have an $R$ as well. Both of these conditions can be thought of as viability conditions. 
+
+\textbf{TODO: Do better by the viability criteria above.}
+
+\textbf{TODO: How large an attractor exists around the stable point?}
 
 
 
