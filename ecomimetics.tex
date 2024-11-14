@@ -136,17 +136,27 @@ We can summarize our findings as follows:
 
 \subsection{Safe Zones}
 
-So we know that if $|\gamma| > |m|$ there's potential for problems, but are there also portions of the space we don't have to worry about? Trivially, yes, and we can see this by computing when $dR/dt$ and $dC/dt$ are both zero (i.e. when there's no growth or loss). 
+So we know that if $|\gamma| > |m|$ there's potential for problems, but are there also portions of the space we don't have to worry about? One such portion of the space would be where both $C$ and $R$ have derivatives of 0 and sensical solutions. For example, setting $dC/dt$ to zero we have:
 
 $$0 = \left( b\frac{z}{1+\alpha F}-m \right)C \rightarrow F= \frac{zb-m}{\alpha m}$$
+
+Therefore at such a fullness, $C$ will be "stable" in the sense that it won't change. Setting $dR/dt$ to zero we have:
 
 $$0 = r(1-R/K)R-\frac{z}{1+\alpha F}C \rightarrow r(1-R/K)=\frac{zF}{1+\alpha F}$$
 
 $$\rightarrow R = K\left( 1 - \frac{z}{r}\frac{F}{1+\alpha F} \right)$$
 
-If $zb-m>0$ then there exists a solution where $C>0$ and then if the term in parenthesis in the last equation is also $>0$ we have an $R$ as well. Both of these conditions can be thought of as viability conditions. 
+Right away there are a few "viability" conditions we can take away from this. First of all, and unsurprisingly, if $zb-m<0$ there does not exist a fullness at which $C$ is stable. Indeed given that $zb-m$ corresponds to the growth when $F=0$ (i.e. the resource per consumer is maximized) a $zb-m\leq 0 $ means the consumer will never grow and is completely nonviable. It cannot produce enough biomass in the best of times to overcome its own metabolic constraints. 
 
-\textbf{TODO: Do better by the viability criteria above.}
+On the other hand, assuming $zb-m>0$ if: 
+
+$$ 1 - \frac{z}{r}\frac{F}{1+\alpha F} \leq 0$$
+
+Then the "stable" point for $R$ is $\leq 0$ itself which clearly doesn't make any sense. Looking more closely we can see that in general as $R$ decreases if $F$ is held constant that the growth rate of $R$ increases (we move away from the carrying capacity $K$ and $C$ has to drop proportionately). Therefore this $R\leq 0 $ means that at the critical fullness for stable $C$ there is no value of $R$ for which $R$ will be stable or increasing. In order for $R$ to grow $F$ will need to drop and therefore $C$ will start dropping as well. 
+\newline
+
+However, if both of these viability conditions are met there does exist a single point where $R$ and $C$ are both stable. Which leads us to another question - if we perturb $C$ or $R$ about that point, will the system works its way back to it? 
+
 
 \textbf{TODO: How large an attractor exists around the stable point?}
 
