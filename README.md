@@ -10,5 +10,5 @@ Learning what ecosystems can teach us about coexistence.
 
 > **Strong Coexistence**: prevention of extinction while maintaining low variance in population levels. 
 
-- [ ] Strong coexistence is the result of dampening
+- [ ] Strong coexistence is the result of damping
     - [ ] Look for dampening effects in nature
